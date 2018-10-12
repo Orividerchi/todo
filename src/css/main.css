@@ -1,0 +1,39 @@
+body{
+  margin-top: 10px
+}
+.todo{
+  margin-top: 5px
+}
+.checkbox{
+margin-right: 15px;
+transform:scale(2);
+opacity:0.9;
+cursor:pointer;
+}
+li{
+  list-style-type: none;
+}
+.completedTodo{
+  margin-top: 5px;
+  text-decoration: line-through;
+}
+.addTodo{
+  margin-top: 10px;
+  margin-bottom: 10px
+}
+.addTodo button{
+  margin-left: 5px
+}
+.Footer{
+  margin-top: 5px
+}
+.Footer button{
+  margin-top: 5px;
+  margin-right: 5px
+}
+.LoginForm :nth-child(1n){
+  margin-left: 5px
+}
+.RegisterForm :nth-child(1n){
+  margin-left: 5px
+}
