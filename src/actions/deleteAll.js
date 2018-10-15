@@ -1,32 +1,35 @@
 import firebase from 'firebase';
 
+const DELETE_ALL_COMPLETED_REQUEST = 'DELETE_ALL_COMPLETED_REQUEST';
+const DELETE_ALL_COMPLETED_RESPONCE = 'DELETE_ALL_COMPLETED_RESPONCE';
+const DELETE_ALL_COMPLETED_FAILURE_RESPONCE = 'DELETE_ALL_COMPLETED_FAILURE_RESPONCE';
+
 export const requestDeleteAllCompleted = todos => ({
-  type: 'REQUEST_DELETE_ALL_COMPLETED',
+  type: DELETE_ALL_COMPLETED_REQUEST,
   todos,
 });
 export const responseDeleteAllCompleted = todos => ({
-  type: 'RESPONSE_DELETE_ALL_COMPLETED',
+  type: DELETE_ALL_COMPLETED_RESPONCE,
   todos,
 });
 export const failureResponseDeleteAllCompleted = error => ({
-  type: 'FAILURE_RESPONSE_DELETE_ALL_COMPLETED',
+  type: DELETE_ALL_COMPLETED_FAILURE_RESPONCE,
   error,
 });
-export const requestDeleteAll = todos => async (dispatch) => {
+export const deleteAllCompletedTodo = todos => async (dispatch) => {
   dispatch(requestDeleteAllCompleted(todos));
   try {
-    const result = await new Promise((resolve) => {
-      const ref = firebase.database();
-      const newTodos = [];
+    const result = await new Promise((resolve, reject) => {
+      const ref = firebase.database().ref();
+      const newTodos = {};
       for (let i = 0; i < todos.length; i += 1) {
         if (todos[i].completed) {
-          newTodos.push(todos[i]);
+          newTodos[`/${todos[i].id}`] = null;
         }
       }
-      for (let i = 0; i < newTodos.length; i += 1) {
-        ref.ref(`/${newTodos[i].id}`).remove();
-      }
+      ref.update(newTodos);
       resolve(newTodos);
+      reject(new Error());
     });
     if (!result) {
       throw new Error("Can't add todo");

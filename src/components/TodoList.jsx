@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import firebase from 'firebase';
 import Todo from './Todo';
+import AddTodo from '../containers/AddTodo';
 
 /**
  * List of todo
@@ -26,8 +28,8 @@ class TodoList extends React.Component {
     const { requestTodoList } = this.props;
     if (todos.length > 0) {
       return (
-        <div>
-          <ul>
+        <div className="form-group">
+          <ul className="list-group">
             {todos.map(todo => (<Todo
               key={todo.id}
               {...todo}
@@ -37,20 +39,41 @@ class TodoList extends React.Component {
               requestTodoList={requestTodoList}
             />
             ))}
+            <li>
+              <AddTodo />
+            </li>
           </ul>
-          <button
-            type="button"
-            onClick={() => onDeleteAll(todos).then(
-              requestTodoList(),
-            )}
-          >
-             Delete all completed
-          </button>
+          <div className="row">
+            <div className="col-6">
+              <button
+                className="btn btn-warning"
+                type="button"
+                onClick={() => onDeleteAll(todos).then(
+                  requestTodoList(),
+                )}
+              >
+                Delete all completed
+              </button>
+            </div>
+            <div className="col-6 d-flex justify-content-end">
+              <button
+                type="button"
+                onClick={() => firebase.auth().signOut()}
+                className="btn btn-warning"
+              >
+              Sign Out
+              </button>
+            </div>
+          </div>
         </div>
       );
     }
     return (
-      <img src="https://www.engagewp.com/wp-content/uploads/2014/06/preloader.gif" alt="loading" />
+      <ul className="list-group">
+        <li>
+          <AddTodo />
+        </li>
+      </ul>
     );
   }
 }

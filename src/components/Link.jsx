@@ -1,19 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Link = ({ active, children, onClick }) => (
+
+const Link = ({ active, filter, onClick }) => (
   <button
     type="button"
     onClick={onClick}
     disabled={active}
+    className="btn btn-info"
   >
-    {children}
+    {filter.replace(/_/, ' ')}
   </button>
 );
 
 Link.propTypes = {
   active: PropTypes.bool.isRequired,
-  children: PropTypes.node.isRequired,
+  filter: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 

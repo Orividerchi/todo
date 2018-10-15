@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const deleteSymbol = '🗴';
 
 /**
  * @returns {JSX} todo item
@@ -18,21 +17,8 @@ class Todo extends React.Component {
       id: props.id,
       completed: props.completed,
       userId: props.userId,
-      visible: false,
     };
   }
-
-handleMouseEnter = () => {
-  this.setState({
-    visible: true,
-  });
-}
-
-handleMouseLeave = () => {
-  this.setState({
-    visible: false,
-  });
-}
 
 handleOnChangeTodoState = () => {
   const { onClick } = this.props;
@@ -87,14 +73,9 @@ handleTextBlur = () => {
 render() {
   const { completed } = this.state;
   const { text } = this.state;
-  const { visible } = this.state;
   return (
     <li>
-      <div
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-      >
-        <input type="checkbox" onChange={this.handleOnChangeTodoState} checked={completed} className="checkbox" />
+      <div className="input-group">
         <input
           type="text"
           value={text}
@@ -102,21 +83,22 @@ render() {
           onBlur={this.handleTextBlur}
           className={
             (completed)
-              ? 'completedTodo'
-              : 'todo'
-          }
+              ? 'form-control completedTodo'
+              : 'form-control'
+            }
         />
-        <button
-          type="button"
-          style={{
-            display: visible ? 'inline' : 'none',
-          }}
-          onClick={this.handleMouseClickDeleteButton}
-        >
-          {deleteSymbol}
-          {' '}
-
-        </button>
+        <div className="input-group-append">
+          <button type="button" onClick={this.handleOnChangeTodoState} className="btn btn-success">
+            Done
+          </button>
+          <button
+            type="button"
+            onClick={this.handleMouseClickDeleteButton}
+            className="btn btn-danger"
+          >
+            Delete
+          </button>
+        </div>
       </div>
     </li>
   );

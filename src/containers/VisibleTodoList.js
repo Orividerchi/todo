@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import { requestToggle } from '../actions/toggleTodo';
-import { requestDeleteAll } from '../actions/deleteAll';
-import { requestDelete } from '../actions/deleteTodo';
-import { requestEdit } from '../actions/editTodo';
+import { toggleTodo } from '../actions/toggleTodo';
+import { deleteAllCompletedTodo } from '../actions/deleteAll';
+import { deleteTodo } from '../actions/deleteTodo';
+import { updateTodo } from '../actions/editTodo';
 import TodoList from '../components/TodoList';
 import { VisibilityFilters } from '../actions/visibilityFilters';
 import { requestTodoList } from '../actions/requestTodoList';
@@ -27,10 +27,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   requestTodoList: () => dispatch(requestTodoList()),
-  onToggleTodo: todo => dispatch(requestToggle(todo)),
-  onDeleteAll: todos => dispatch(requestDeleteAll(todos)),
-  onDeleteTodo: todo => dispatch(requestDelete(todo)),
-  onEditTodo: todo => dispatch(requestEdit(todo)),
+  onToggleTodo: todo => dispatch(toggleTodo(todo)),
+  onDeleteAll: todos => dispatch(deleteAllCompletedTodo(todos)),
+  onDeleteTodo: todo => dispatch(deleteTodo(todo)),
+  onEditTodo: todo => dispatch(updateTodo(todo)),
 });
 
 export default connect(

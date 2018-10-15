@@ -8,8 +8,9 @@ const AddTodo = ({ dispatch }) => {
   let input;
 
   return (
-    <div className="addTodo">
+    <div className="AddTodo">
       <form
+        className="input-group"
         onSubmit={(e) => {
           e.preventDefault();
           if (!input.value.trim()) {
@@ -21,10 +22,12 @@ const AddTodo = ({ dispatch }) => {
           input.value = '';
         }}
       >
-        <input ref={(node) => { input = node; }} />
-        <button type="submit">
-          Add Todo
-        </button>
+        <input ref={(node) => { input = node; }} className="form-control" type="text" />
+        <div className="input-group-append">
+          <button type="submit" className="btn btn-primary">
+                Add New ToDo
+          </button>
+        </div>
       </form>
     </div>
   );

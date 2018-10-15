@@ -44,11 +44,26 @@ class RegisterForm extends React.Component {
     const { email } = this.state;
     const { password } = this.state;
     return (
-      <div className="RegisterForm">
-        <p>Registration</p>
-        <input type="text" placeholder="mail" value={email} onChange={this.handleEmailEdit} />
-        <input type="password" placeholder="pass" value={password} onChange={this.handlePasswordEdit} />
-        <input type="button" value="ok" onClick={this.handleRegisterSubmit} />
+      <div className="content">
+        <h3 className="d-flex justify-content-center">
+              Registration
+        </h3>
+        <hr />
+        <form>
+          <div className="form-group">
+            <label htmlFor="emailRegistration">
+                  Email adress
+              <input type="text" placeholder="Email" value={email} onChange={this.handleEmailEdit} id="emailRegistration" className="form-control" />
+            </label>
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">
+                  Password
+              <input type="password" placeholder="Password" value={password} onChange={this.handlePasswordEdit} className="form-control" />
+            </label>
+          </div>
+          <input type="button" value="Registration" onClick={this.handleRegisterSubmit} className="btn btn-primary" />
+        </form>
       </div>
     );
   }
