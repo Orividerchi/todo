@@ -1,24 +1,24 @@
 import firebase from 'firebase';
 import currentUser from '../firebase/user';
 
-const REQUEST_ADD_TODO = 'REQUEST_ADD_TODO';
-const RESPONSE_ADD_TODO = 'RESPONSE_ADD_TODO';
-const FAILURE_RESPONSE_ADD_TODO = 'FAILURE_RESPONSE_ADD_TODO';
+const ADD_TODO_REQUEST = 'ADD_TODO_REQUEST';
+const ADD_TODO_RESPONSE = 'ADD_TODO_RESPONSE';
+const ADD_TODO_FAILURE_RESPONSE = 'ADD_TODO_FAILURE_RESPONSE';
 
-export const requestAddTodo = text => ({
-  type: REQUEST_ADD_TODO,
+export const addTodoRequest = text => ({
+  type: ADD_TODO_REQUEST,
   text,
 });
-export const responseAddTodo = todo => ({
-  type: RESPONSE_ADD_TODO,
+export const addTodoResponse = todo => ({
+  type: ADD_TODO_RESPONSE,
   todo,
 });
-export const failureResponseAddTodo = error => ({
-  type: FAILURE_RESPONSE_ADD_TODO,
+export const addTodoFailureResponse = error => ({
+  type: ADD_TODO_FAILURE_RESPONSE,
   error,
 });
-export const requestAdd = text => async (dispatch) => {
-  dispatch(requestAddTodo(text));
+export const addTodo = text => async (dispatch) => {
+  dispatch(addTodoRequest(text));
   try {
     const result = await new Promise((resolve, reject) => {
       const ref = firebase.database().ref('/').push();
@@ -32,11 +32,8 @@ export const requestAdd = text => async (dispatch) => {
         .then(() => resolve(todo))
         .catch(e => reject(e));
     });
-    if (!result) {
-      throw new Error('Can\'t added');
-    }
-    return dispatch(responseAddTodo(result));
+    return dispatch(addTodoResponse(result));
   } catch (e) {
-    return dispatch(failureResponseAddTodo(e));
+    return dispatch(addTodoFailureResponse(e));
   }
 };

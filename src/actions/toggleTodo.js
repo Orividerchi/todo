@@ -1,34 +1,31 @@
 import firebase from 'firebase';
 
-const REQUEST_TOGGLE_TODO = 'REQUEST_TOGGLE_TODO';
-const RESPONSE_TOGGLE_TODO = 'RESPONSE_TOGGLE_TODO';
-const FAILURE_RESPONSE_TOGGLE_TODO = 'FAILURE_RESPONSE_TOGGLE_TODO';
+const TOGGLE_TODO_REQUEST = 'TOGGLE_TODO_REQUEST';
+const TOGGLE_TODO_RESPONSE = 'TOGGLE_TODO_RESPONSE';
+const TOGGLE_TODO_FAILURE_RESPONSE = 'TOGGLE_TODO_FAILURE_RESPONSE';
 
-export const requestToggleTodo = todo => ({
-  type: REQUEST_TOGGLE_TODO,
+export const toggleTodoRequest = todo => ({
+  type: TOGGLE_TODO_REQUEST,
   todo,
 });
-export const responseToggleTodo = todo => ({
-  type: RESPONSE_TOGGLE_TODO,
+export const toggleTodoResponse = todo => ({
+  type: TOGGLE_TODO_RESPONSE,
   todo,
 });
-export const failureResponseToggleTodo = error => ({
-  type: FAILURE_RESPONSE_TOGGLE_TODO,
+export const toggleTodoFailureResponse = error => ({
+  type: TOGGLE_TODO_FAILURE_RESPONSE,
   error,
 });
 export const toggleTodo = todo => async (dispatch) => {
-  dispatch(requestToggleTodo(todo));
+  dispatch(toggleTodoRequest(todo));
   try {
     const result = await new Promise((resolve, reject) => {
       const ref = firebase.database().ref(`/${todo.id}`).child('completed');
       const completed = !todo.completed;
       ref.set(completed).then(() => resolve(completed)).catch(e => reject(new Error(e)));
     });
-    if (!result) {
-      throw new Error("Can't add todo");
-    }
-    return dispatch(responseToggleTodo(result));
+    return dispatch(toggleTodoResponse(result));
   } catch (e) {
-    return dispatch(failureResponseToggleTodo(e));
+    return dispatch(toggleTodoFailureResponse(e));
   }
 };

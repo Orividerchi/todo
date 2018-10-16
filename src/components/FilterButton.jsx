@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
-const Link = ({ active, filter, onClick }) => (
+const FilterButton = ({ active, filter, onClick }) => (
   <button
     type="button"
     onClick={onClick}
@@ -13,10 +13,10 @@ const Link = ({ active, filter, onClick }) => (
   </button>
 );
 
-Link.propTypes = {
+FilterButton.propTypes = {
   active: PropTypes.bool.isRequired,
   filter: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
-export default Link;
+export default FilterButton;

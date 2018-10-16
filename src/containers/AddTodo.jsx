@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { requestAdd } from '../actions/addTodo';
-import { requestTodoList } from '../actions/requestTodoList';
+import { addTodo } from '../actions/addTodo';
+import { getTodos } from '../actions/requestTodoList';
 
 const AddTodo = ({ dispatch }) => {
   let input;
@@ -16,8 +16,8 @@ const AddTodo = ({ dispatch }) => {
           if (!input.value.trim()) {
             return;
           }
-          dispatch(requestAdd(input.value)).then(
-            dispatch(requestTodoList()),
+          dispatch(addTodo(input.value)).then(
+            dispatch(getTodos()),
           );
           input.value = '';
         }}

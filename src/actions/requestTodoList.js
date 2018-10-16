@@ -1,23 +1,23 @@
 import firebase from 'firebase';
 import currentUser from '../firebase/user';
 
-const REQUEST_TODOS = 'REQUEST_TODOS';
-const RESPONSE_TODOS = 'RESPONSE_TODOS';
-const FAILURE_RESPONSE_TODOS = 'FAILURE_RESPONSE_TODOS';
+const GET_TODOS_REQUEST = 'GET_TODOS_REQUEST';
+const GET_TODOS_RESPONSE = 'GET_TODOS_RESPONSE';
+const GET_TODOS_FAILURE_RESPONSE = 'GET_TODOS_FAILURE_RESPONSE';
 
-export const requestTodos = () => ({
-  type: REQUEST_TODOS,
+export const getTodosRequest = () => ({
+  type: GET_TODOS_REQUEST,
 });
-export const responseTodos = todos => ({
-  type: RESPONSE_TODOS,
+export const getTodosResponse = todos => ({
+  type: GET_TODOS_RESPONSE,
   todos,
 });
-export const failureResponseTodos = error => ({
-  type: FAILURE_RESPONSE_TODOS,
+export const getTodosFailureResponse = error => ({
+  type: GET_TODOS_FAILURE_RESPONSE,
   error,
 });
-export const requestTodoList = () => async (dispatch) => {
-  dispatch(requestTodos());
+export const getTodos = () => async (dispatch) => {
+  dispatch(getTodosRequest());
   try {
     const result = await new Promise((resolve, reject) => {
       const ref = firebase.database().ref('/');
@@ -31,8 +31,8 @@ export const requestTodoList = () => async (dispatch) => {
     const mappedTodos = Object
       .keys(result)
       .map(key => result[key]);
-    return dispatch(responseTodos(mappedTodos));
+    return dispatch(getTodosResponse(mappedTodos));
   } catch (e) {
-    return dispatch(failureResponseTodos(e));
+    return dispatch(getTodosFailureResponse(e));
   }
 };

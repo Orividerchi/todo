@@ -1,23 +1,23 @@
 import firebase from 'firebase';
 
-const REQUEST_EDIT_TODO = 'REQUEST_EDIT_TODO';
-const RESPONSE_EDIT_TODO = 'RESPONSE_EDIT_TODO';
-const FAILURE_RESPONSE_EDIT_TODO = 'FAILURE_RESPONSE_EDIT_TODO';
+const UPDATE_TODO_REQUEST = 'UPDATE_TODO_REQUEST';
+const UPDATE_TODO_RESPONSE = 'UPDATE_TODO_RESPONSE';
+const UPDATE_TODO_FAILURE_RESPONSE = 'UPDATE_TODO_FAILURE_RESPONSE';
 
-export const requestEditTodo = todo => ({
-  type: REQUEST_EDIT_TODO,
+export const updateTodoRequest = todo => ({
+  type: UPDATE_TODO_REQUEST,
   todo,
 });
-export const responseEditTodo = todo => ({
-  type: RESPONSE_EDIT_TODO,
+export const updateTodoResponse = todo => ({
+  type: UPDATE_TODO_RESPONSE,
   todo,
 });
-export const failureResponseEditTodo = error => ({
-  type: FAILURE_RESPONSE_EDIT_TODO,
+export const updateTodoFailureResponse = error => ({
+  type: UPDATE_TODO_FAILURE_RESPONSE,
   error,
 });
 export const updateTodo = todo => async (dispatch) => {
-  dispatch(requestEditTodo(todo));
+  dispatch(updateTodoRequest(todo));
   try {
     const result = await new Promise((resolve, reject) => {
       const ref = firebase.database().ref(`${todo.id}`).child('text');
@@ -29,8 +29,8 @@ export const updateTodo = todo => async (dispatch) => {
     if (!result) {
       throw new Error("Can't add todo");
     }
-    return dispatch(responseEditTodo(result));
+    return dispatch(updateTodoResponse(result));
   } catch (e) {
-    return dispatch(failureResponseEditTodo(e));
+    return dispatch(updateTodoFailureResponse(e));
   }
 };

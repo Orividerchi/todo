@@ -7,30 +7,94 @@ import PasswordLoginForm from './PasswordLoginForm';
  * @returns {JSX} form for registration and log in
  */
 class Authentication extends React.Component {
+  SIGN_IN_VIEW = 'SIGN_IN_VIEW';
+
+  SIGN_UP_VIEW = 'SIGN_UP_VIEW';
+
   /**
    * @param {any} props functions for login and registration
    */
   constructor(props) {
     super(props);
     this.state = {
-      visibility: true,
+      activeView: this.SIGN_IN_VIEW,
     };
+    this.RenderActiveView = this.RenderActiveView.bind(this);
+    this.RenderSignInView = this.RenderSignInView.bind(this);
+    this.RenderSignUpView = this.RenderSignUpView.bind(this);
   }
 
   handleLoginClick = () => {
-    this.setState(prevState => ({
-      visibility: !prevState.visibility,
-    }));
+    const { activeView } = this.state;
+    if (activeView === this.SIGN_IN_VIEW) {
+      this.setState({
+        activeView: this.SIGN_UP_VIEW,
+      });
+    } else {
+      this.setState({
+        activeView: this.SIGN_IN_VIEW,
+      });
+    }
+  }
+
+  /**
+   * @returns {JSX} Sign in form
+   */
+  RenderSignInView() {
+    const { onPasswordLogin } = this.props;
+    return (
+      <div className="col-lg-12 d-flex justify-content-center">
+        <div>
+          <PasswordLoginForm onPasswordLogin={onPasswordLogin} />
+          <div className="d-flex justify-content-center">
+            <button type="button" className="btn btn-link" onClick={this.handleLoginClick}>
+              Register now
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /**
+   * @returns {JSX} Sign up form
+   */
+  RenderSignUpView() {
+    const { onPasswordRegister } = this.props;
+    return (
+      <div className="col-lg-12 d-flex justify-content-center">
+        <div>
+          <RegisterForm onPasswordRegister={onPasswordRegister} />
+          <div className="d-flex justify-content-center">
+            <button type="button" className="btn btn-link" onClick={this.handleLoginClick}>
+              Already have an account
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /**
+   * @returns {JSX} Actieve View
+   */
+  RenderActiveView() {
+    const { activeView } = this.state;
+    switch (activeView) {
+      case this.SIGN_IN_VIEW:
+        return <this.RenderSignInView />;
+      case this.SIGN_UP_VIEW:
+        return <this.RenderSignUpView />;
+      default:
+        return null;
+    }
   }
 
   /**
    * @returns {JSX} form for registration and log in
    */
   render() {
-    const { visibility } = this.state;
     const { onGoogleLogin } = this.props;
-    const { onPasswordRegister } = this.props;
-    const { onPasswordLogin } = this.props;
     return (
       <div className="panel-body">
         <h1 className="d-flex justify-content-center">
@@ -41,39 +105,10 @@ class Authentication extends React.Component {
         </h5>
         <div className="container">
           <div className="row">
-            <div className="col-lg-12 d-flex justify-content-center">
-              <div className={
-                (visibility)
-                  ? 'active'
-                  : 'hidden'
-                }
-              >
-                <PasswordLoginForm onPasswordLogin={onPasswordLogin} />
-                <div className="d-flex justify-content-center">
-                  <button type="button" className="btn btn-link" onClick={this.handleLoginClick}>
-                    Register now
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-12 d-flex justify-content-center">
-              <div className={
-                  (visibility)
-                    ? 'hidden'
-                    : 'active'
-                }
-              >
-                <RegisterForm onPasswordRegister={onPasswordRegister} />
-                <div className="d-flex justify-content-center">
-                  <button type="button" className="btn btn-link" onClick={this.handleLoginClick}>
-                    Have account?
-                  </button>
-                </div>
-              </div>
-            </div>
+            <this.RenderActiveView />
             <div className="col-lg-12 d-flex justify-content-center">
               <div className="social">
-                <span className="separator-text">Or Sign Up Using</span>
+                <span className="separator-text ">Or</span>
                 <button type="button" onClick={onGoogleLogin} className="loginBtn loginBtn--google">
                   Sign In with Google
                 </button>

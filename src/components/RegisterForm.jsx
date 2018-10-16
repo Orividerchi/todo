@@ -46,20 +46,32 @@ class RegisterForm extends React.Component {
     return (
       <div className="content">
         <h3 className="d-flex justify-content-center">
-              Registration
+          Registration
         </h3>
-        <hr />
         <form>
           <div className="form-group">
             <label htmlFor="emailRegistration">
-                  Email adress
-              <input type="text" placeholder="Email" value={email} onChange={this.handleEmailEdit} id="emailRegistration" className="form-control" />
+                  Email address
+              <input
+                type="text"
+                placeholder="Email"
+                value={email}
+                onChange={this.handleEmailEdit}
+                id="emailRegistration"
+                className="form-control"
+              />
             </label>
           </div>
           <div className="form-group">
             <label htmlFor="password">
                   Password
-              <input type="password" placeholder="Password" value={password} onChange={this.handlePasswordEdit} className="form-control" />
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={this.handlePasswordEdit}
+                className="form-control"
+              />
             </label>
           </div>
           <input type="button" value="Registration" onClick={this.handleRegisterSubmit} className="btn btn-primary" />

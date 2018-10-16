@@ -1,5 +1,5 @@
 import React from 'react';
-import FilterLink from '../containers/FilterLink';
+import FilterButton from '../containers/FilterButton';
 import { VisibilityFilters } from '../actions/visibilityFilters';
 
 const Header = () => (
@@ -8,7 +8,7 @@ const Header = () => (
       <div className="row">
         <div className="btn-group" role="group">
           {Object.keys(VisibilityFilters)
-            .map(key => <FilterLink filter={key} key={key} />)
+            .map(key => <FilterButton filter={key} key={key} />)
           }
         </div>
       </div>

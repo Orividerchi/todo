@@ -1,22 +1,22 @@
 import firebase from 'firebase';
 
-const REQUEST_DELETE_TODO = 'REQUEST_DELETE_TODO';
-const RESPONSE_DELETE_TODO = 'RESPONSE_DELETE_TODO';
-const FAILURE_RESPONSE_DELETE_TODO = 'FAILURE_RESPONSE_DELETE_TODO';
+const DELETE_TODO_REQUEST = 'DELETE_TODO_REQUEST';
+const DELETE_TODO_RESPONSE = 'DELETE_TODO_RESPONSE';
+const DELETE_TODO_FAILURE_RESPONSE = 'DELETE_TODO_FAILURE_RESPONSE';
 
-export const requestDeleteTodo = id => ({
-  type: REQUEST_DELETE_TODO,
+export const deleteTodoRequest = id => ({
+  type: DELETE_TODO_REQUEST,
   id,
 });
-export const responseDeleteTodo = () => ({
-  type: RESPONSE_DELETE_TODO,
+export const deleteTodoResponse = () => ({
+  type: DELETE_TODO_RESPONSE,
 });
-export const failureResponseDeleteTodo = error => ({
-  type: FAILURE_RESPONSE_DELETE_TODO,
+export const deleteTodoFailureResponse = error => ({
+  type: DELETE_TODO_FAILURE_RESPONSE,
   error,
 });
 export const deleteTodo = id => async (dispatch) => {
-  dispatch(requestDeleteTodo(id));
+  dispatch(deleteTodoRequest(id));
   try {
     const result = await new Promise((resolve, reject) => {
       firebase.database().ref(`/${id}`).remove()
@@ -26,8 +26,8 @@ export const deleteTodo = id => async (dispatch) => {
     if (!result) {
       throw new Error("Can't add todo");
     }
-    return dispatch(responseDeleteTodo());
+    return dispatch(deleteTodoResponse());
   } catch (e) {
-    return dispatch(failureResponseDeleteTodo(e));
+    return dispatch(deleteTodoFailureResponse(e));
   }
 };

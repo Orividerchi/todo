@@ -6,6 +6,7 @@ import AddTodo from '../containers/AddTodo';
 
 /**
  * List of todo
+ * @returns {JSX} List of todo
  */
 class TodoList extends React.Component {
   /**
@@ -16,15 +17,25 @@ class TodoList extends React.Component {
     requestTodoList();
   }
 
+  handeDeleteUsersTodos = () => {
+    const { onDeleteAll, todos, requestTodoList } = this.props;
+    onDeleteAll(todos).then(
+      requestTodoList(),
+    );
+  }
+
+  handleSignOutButton = () => {
+    firebase.auth().signOut();
+  }
+
   /**
    * @returns {JSX} list of todo
    */
   render() {
     const { todos } = this.props;
     const { onToggleTodo } = this.props;
-    const { onDeleteTodo } = this.props;
     const { onEditTodo } = this.props;
-    const { onDeleteAll } = this.props;
+    const { onDeleteTodo } = this.props;
     const { requestTodoList } = this.props;
     if (todos.length > 0) {
       return (
@@ -48,9 +59,7 @@ class TodoList extends React.Component {
               <button
                 className="btn btn-warning"
                 type="button"
-                onClick={() => onDeleteAll(todos).then(
-                  requestTodoList(),
-                )}
+                onClick={this.handeDeleteUsersTodos}
               >
                 Delete all completed
               </button>
@@ -58,7 +67,7 @@ class TodoList extends React.Component {
             <div className="col-6 d-flex justify-content-end">
               <button
                 type="button"
-                onClick={() => firebase.auth().signOut()}
+                onClick={this.handleSignOutButton}
                 className="btn btn-warning"
               >
               Sign Out

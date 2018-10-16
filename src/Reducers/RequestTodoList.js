@@ -2,9 +2,9 @@ const initialState = {
   list: [],
 };
 
-const REQUEST_TODOS = 'REQUEST_TODOS';
-const RESPONSE_TODOS = 'RESPONSE_TODOS';
-const FAILURE_RESPONSE_TODOS = 'FAILURE_RESPONSE_TODOS';
+const GET_TODOS_REQUEST = 'GET_TODOS_REQUEST';
+const GET_TODOS_RESPONSE = 'GET_TODOS_RESPONSE';
+const GET_TODOS_FAILURE_RESPONSE = 'GET_TODOS_FAILURE_RESPONSE';
 
 /**
  * @param {array} state - previous state
@@ -13,15 +13,15 @@ const FAILURE_RESPONSE_TODOS = 'FAILURE_RESPONSE_TODOS';
  */
 export default function todos(state = initialState, action) {
   switch (action.type) {
-    case REQUEST_TODOS:
+    case GET_TODOS_REQUEST:
       return Object.assign({}, state, {
         list: [],
       });
-    case RESPONSE_TODOS:
+    case GET_TODOS_RESPONSE:
       return Object.assign({}, state, {
         list: action.todos,
       });
-    case FAILURE_RESPONSE_TODOS:
+    case GET_TODOS_FAILURE_RESPONSE:
       return Object.assign({}, state, {
         list: [],
       });

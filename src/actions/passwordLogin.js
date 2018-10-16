@@ -1,32 +1,32 @@
 import firebase from 'firebase';
 
-const REQUEST_PASSWORD_LOGIN = 'REQUEST_PASSWORD_LOGIN';
-const RESPONSE_PASSWORD_LOGIN = 'RESPONSE_PASSWORD_LOGIN';
-const FAILURE_RESPONSE_PASSWORD_LOGIN = 'FAILURE_RESPONSE_PASSWORD_LOGIN';
+const PASSWORD_SIGN_IN_REQUEST = 'PASSWORD_SIGN_IN_REQUEST';
+const PASSWORD_SIGN_IN_RESPONSE = 'PASSWORD_SIGN_IN_RESPONSE';
+const PASSWORD_SIGN_IN_FAILURE_RESPONSE = 'PASSWORD_SIGN_IN_FAILURE_RESPONSE';
 
-export const requestPasswordLogin = (email, password) => ({
-  type: REQUEST_PASSWORD_LOGIN,
+export const passwordSignInRequest = (email, password) => ({
+  type: PASSWORD_SIGN_IN_REQUEST,
   email,
   password,
 });
-export const responsePasswordLogin = user => ({
-  type: RESPONSE_PASSWORD_LOGIN,
+export const passwordSignInResponse = user => ({
+  type: PASSWORD_SIGN_IN_RESPONSE,
   user,
 });
-export const failureResponsePasswordLogin = error => ({
-  type: FAILURE_RESPONSE_PASSWORD_LOGIN,
+export const passwordSignInFailureResponse = error => ({
+  type: PASSWORD_SIGN_IN_FAILURE_RESPONSE,
   error,
 });
 export const passwordLogin = (email, password) => async (dispatch) => {
-  dispatch(requestPasswordLogin(email, password));
+  dispatch(passwordSignInRequest(email, password));
   const result = await new Promise((resolve, reject) => {
     firebase.auth().signInWithEmailAndPassword(email, password).then((signIn) => {
       resolve(signIn.user);
     }).catch((e) => {
       alert(e);
       reject(e);
-      return dispatch(failureResponsePasswordLogin(e));
+      return dispatch(passwordSignInFailureResponse(e));
     });
   });
-  return dispatch(responsePasswordLogin(result));
+  return dispatch(passwordSignInResponse(result));
 };

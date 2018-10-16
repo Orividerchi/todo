@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import { googleLogin } from '../actions/googleLogin';
+import { googleSignIn } from '../actions/googleLogin';
 import { passwordLogin } from '../actions/passwordLogin';
-import { passwordRegister } from '../actions/passwordRegister';
+import { signUp } from '../actions/passwordRegister';
 import Authentification from '../components/Authentication';
 
 const mapStateToProps = () => ({
@@ -9,9 +9,9 @@ const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onGoogleLogin: () => dispatch(googleLogin()),
+  onGoogleLogin: () => dispatch(googleSignIn()),
   onPasswordLogin: (email, login) => dispatch(passwordLogin(email, login)),
-  onPasswordRegister: (email, login) => dispatch(passwordRegister(email, login)),
+  onPasswordRegister: (email, login) => dispatch(signUp(email, login)),
 });
 
 export default connect(

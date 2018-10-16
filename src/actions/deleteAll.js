@@ -1,41 +1,42 @@
 import firebase from 'firebase';
 
-const DELETE_ALL_COMPLETED_REQUEST = 'DELETE_ALL_COMPLETED_REQUEST';
-const DELETE_ALL_COMPLETED_RESPONCE = 'DELETE_ALL_COMPLETED_RESPONCE';
-const DELETE_ALL_COMPLETED_FAILURE_RESPONCE = 'DELETE_ALL_COMPLETED_FAILURE_RESPONCE';
+const DELETE_USER_COMPLETED_TODOS_REQUEST = 'DELETE_USER_COMPLETED_TODOS_REQUEST';
+const DELETE_USER_COMPLETED_TODOS_RESPONSE = 'DELETE_USER_COMPLETED_TODOS_RESPONSE';
+const DELETE_USER_COMPLETED_TODOS_FAILURE_RESPONSE = 'DELETE_USER_COMPLETED_TODOS_FAILURE_RESPONSE';
 
-export const requestDeleteAllCompleted = todos => ({
-  type: DELETE_ALL_COMPLETED_REQUEST,
+export const deleteUserCompletedTodosRequest = todos => ({
+  type: DELETE_USER_COMPLETED_TODOS_REQUEST,
   todos,
 });
-export const responseDeleteAllCompleted = todos => ({
-  type: DELETE_ALL_COMPLETED_RESPONCE,
+export const deleteUserCompletedTodosResponse = todos => ({
+  type: DELETE_USER_COMPLETED_TODOS_RESPONSE,
   todos,
 });
-export const failureResponseDeleteAllCompleted = error => ({
-  type: DELETE_ALL_COMPLETED_FAILURE_RESPONCE,
+export const deleteUserCompletedTodosFailureResponse = error => ({
+  type: DELETE_USER_COMPLETED_TODOS_FAILURE_RESPONSE,
   error,
 });
-export const deleteAllCompletedTodo = todos => async (dispatch) => {
-  dispatch(requestDeleteAllCompleted(todos));
+export const deleteAllCompletedTodos = todos => async (dispatch) => {
+  dispatch(deleteUserCompletedTodosRequest(todos));
   try {
     const result = await new Promise((resolve, reject) => {
       const ref = firebase.database().ref();
       const newTodos = {};
-      for (let i = 0; i < todos.length; i += 1) {
-        if (todos[i].completed) {
-          newTodos[`/${todos[i].id}`] = null;
+      todos.reduce((prev, todo) => {
+        if (todo.completed) {
+          newTodos[`/${todo.id}`] = null;
         }
-      }
-      ref.update(newTodos);
-      resolve(newTodos);
-      reject(new Error());
+        return null;
+      }, 0);
+      ref.update(newTodos)
+        .then(resolve(newTodos))
+        .catch(reject(new Error()));
     });
     if (!result) {
       throw new Error("Can't add todo");
     }
-    return dispatch(responseDeleteAllCompleted(result));
+    return dispatch(deleteUserCompletedTodosResponse(result));
   } catch (e) {
-    return dispatch(failureResponseDeleteAllCompleted(e));
+    return dispatch(deleteUserCompletedTodosFailureResponse(e));
   }
 };

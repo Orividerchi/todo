@@ -50,17 +50,30 @@ class PasswordLoginForm extends React.Component {
         <h3 className="d-flex justify-content-center">
           Login
         </h3>
-        <hr />
         <div className="form-group">
           <label htmlFor="email">
-            Email adress
-            <input type="text" value={email} onChange={this.handleEmailEdit} className="form-control" id="email" placeholder="Email" />
+            Email address
+            <input
+              type="text"
+              value={email}
+              onChange={this.handleEmailEdit}
+              className="form-control"
+              id="email"
+              placeholder="Email"
+            />
           </label>
         </div>
         <div className="form-group">
           <label htmlFor="password">
             Password
-            <input type="password" value={password} onChange={this.handlePasswordEdit} className="form-control" id="password" placeholder="Password" />
+            <input
+              type="password"
+              value={password}
+              onChange={this.handlePasswordEdit}
+              className="form-control"
+              id="password"
+              placeholder="Password"
+            />
           </label>
         </div>
         <input type="button" value="Login" onClick={this.handleRegisterSubmit} className="btn btn-primary" />
