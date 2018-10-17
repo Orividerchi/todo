@@ -19,9 +19,6 @@ class Authentication extends React.Component {
     this.state = {
       activeView: this.SIGN_IN_VIEW,
     };
-    this.RenderActiveView = this.RenderActiveView.bind(this);
-    this.RenderSignInView = this.RenderSignInView.bind(this);
-    this.RenderSignUpView = this.RenderSignUpView.bind(this);
   }
 
   handleLoginClick = () => {
@@ -40,7 +37,7 @@ class Authentication extends React.Component {
   /**
    * @returns {JSX} Sign in form
    */
-  RenderSignInView() {
+  renderSignInView =() => {
     const { onPasswordLogin } = this.props;
     return (
       <div className="col-lg-12 d-flex justify-content-center">
@@ -59,7 +56,7 @@ class Authentication extends React.Component {
   /**
    * @returns {JSX} Sign up form
    */
-  RenderSignUpView() {
+  renderSignUpView = () => {
     const { onPasswordRegister } = this.props;
     return (
       <div className="col-lg-12 d-flex justify-content-center">
@@ -78,13 +75,13 @@ class Authentication extends React.Component {
   /**
    * @returns {JSX} Actieve View
    */
-  RenderActiveView() {
+  renderActiveView = () => {
     const { activeView } = this.state;
     switch (activeView) {
       case this.SIGN_IN_VIEW:
-        return <this.RenderSignInView />;
+        return this.renderSignInView();
       case this.SIGN_UP_VIEW:
-        return <this.RenderSignUpView />;
+        return this.renderSignUpView();
       default:
         return null;
     }
@@ -105,7 +102,7 @@ class Authentication extends React.Component {
         </h5>
         <div className="container">
           <div className="row">
-            <this.RenderActiveView />
+            {this.renderActiveView()}
             <div className="col-lg-12 d-flex justify-content-center">
               <div className="social">
                 <span className="separator-text ">Or</span>

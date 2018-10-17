@@ -1,12 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { addTodo } from '../actions/addTodo';
-import { getTodos } from '../actions/requestTodoList';
 
-const AddTodo = ({ dispatch }) => {
+const AddTodo = (args) => {
   let input;
-
   return (
     <div className="AddTodo">
       <form
@@ -16,9 +11,7 @@ const AddTodo = ({ dispatch }) => {
           if (!input.value.trim()) {
             return;
           }
-          dispatch(addTodo(input.value)).then(
-            dispatch(getTodos()),
-          );
+          args.addTodo(input.value);
           input.value = '';
         }}
       >
@@ -33,8 +26,4 @@ const AddTodo = ({ dispatch }) => {
   );
 };
 
-AddTodo.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-};
-
-export default connect()(AddTodo);
+export default AddTodo;

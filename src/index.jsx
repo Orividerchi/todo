@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
+import createSagaMiddleware from 'redux-saga';
 import AuthenticationForm from './containers/authentificationForm';
 import currentUser from './firebase/user';
 import rootReducer from './Reducers';
@@ -11,11 +12,14 @@ import App from './components/App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/main.css';
 import app from './firebase/firebase';
+import rootSaga from './sagas/rootSaga';
 
 require('dotenv').config();
 
 app.auth().onAuthStateChanged((user) => {
-  const store = createStore(rootReducer, applyMiddleware(thunk, logger));
+  const saga = createSagaMiddleware();
+  const store = createStore(rootReducer, applyMiddleware(thunk, logger, saga));
+  saga.run(rootSaga);
   if (user) {
     Object.assign(currentUser, user);
     render(

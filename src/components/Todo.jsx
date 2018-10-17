@@ -26,25 +26,18 @@ handleOnChangeTodoState = () => {
   const { text } = this.state;
   const { completed } = this.state;
   const { userId } = this.state;
-  const { requestTodoList } = this.props;
   onClick({
     id,
     text,
     completed,
     userId,
-  }).then(requestTodoList());
-  this.setState(prevState => ({
-    completed: !prevState.completed,
-  }));
+  });
 }
 
 handleMouseClickDeleteButton = () => {
   const { deleteTodo } = this.props;
   const { id } = this.state;
-  const { requestTodoList } = this.props;
-  deleteTodo(id).then(
-    requestTodoList(),
-  );
+  deleteTodo(id);
 }
 
 handleTextChange = (e) => {
@@ -113,7 +106,6 @@ Todo.propTypes = {
   onClick: PropTypes.func.isRequired,
   editTodo: PropTypes.func.isRequired,
   deleteTodo: PropTypes.func.isRequired,
-  requestTodoList: PropTypes.func.isRequired,
 };
 
 export default Todo;

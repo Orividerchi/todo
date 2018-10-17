@@ -18,10 +18,8 @@ class TodoList extends React.Component {
   }
 
   handeDeleteUsersTodos = () => {
-    const { onDeleteAll, todos, requestTodoList } = this.props;
-    onDeleteAll(todos).then(
-      requestTodoList(),
-    );
+    const { onDeleteAll, todos } = this.props;
+    onDeleteAll(todos);
   }
 
   handleSignOutButton = () => {
@@ -78,11 +76,33 @@ class TodoList extends React.Component {
       );
     }
     return (
-      <ul className="list-group">
-        <li>
-          <AddTodo />
-        </li>
-      </ul>
+      <div>
+        <ul className="list-group">
+          <li>
+            <AddTodo />
+          </li>
+        </ul>
+        <div className="row">
+          <div className="col-6">
+            <button
+              className="btn btn-warning"
+              type="button"
+              onClick={this.handeDeleteUsersTodos}
+            >
+          Delete all completed
+            </button>
+          </div>
+          <div className="col-6 d-flex justify-content-end">
+            <button
+              type="button"
+              onClick={this.handleSignOutButton}
+              className="btn btn-warning"
+            >
+        Sign Out
+            </button>
+          </div>
+        </div>
+      </div>
     );
   }
 }

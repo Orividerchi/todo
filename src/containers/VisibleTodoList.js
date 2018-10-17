@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
-import { toggleTodo } from '../actions/toggleTodo';
-import { deleteAllCompletedTodos } from '../actions/deleteAll';
-import { deleteTodo } from '../actions/deleteTodo';
-import { updateTodo } from '../actions/editTodo';
+import { toggleTodoRequest } from '../actions/toggleTodo';
+import { deleteUserCompletedTodosRequest } from '../actions/deleteAll';
 import TodoList from '../components/TodoList';
+import { updateTodoRequest } from '../actions/editTodo';
 import { VisibilityFilters } from '../actions/visibilityFilters';
-import { getTodos } from '../actions/requestTodoList';
+import { getTodosRequest } from '../actions/requestTodoList';
+import { deleteTodoRequest } from '../actions/deleteTodo';
 
 
 const getVisibleTodos = (todos, filter) => {
@@ -26,11 +26,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  requestTodoList: () => dispatch(getTodos()),
-  onToggleTodo: todo => dispatch(toggleTodo(todo)),
-  onDeleteAll: todos => dispatch(deleteAllCompletedTodos(todos)),
-  onDeleteTodo: todo => dispatch(deleteTodo(todo)),
-  onEditTodo: todo => dispatch(updateTodo(todo)),
+  requestTodoList: () => dispatch(getTodosRequest()),
+  onToggleTodo: todo => dispatch(toggleTodoRequest(todo)),
+  onDeleteAll: todos => dispatch(deleteUserCompletedTodosRequest(todos)),
+  onDeleteTodo: id => dispatch(deleteTodoRequest(id)),
+  onEditTodo: todo => dispatch(updateTodoRequest(todo)),
 });
 
 export default connect(
