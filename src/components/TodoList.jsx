@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import firebase from 'firebase';
 import Todo from './Todo';
 import AddTodo from '../containers/AddTodo';
 
@@ -23,7 +22,8 @@ class TodoList extends React.Component {
   }
 
   handleSignOutButton = () => {
-    firebase.auth().signOut();
+    const { logOut } = this.props;
+    logOut();
   }
 
   /**

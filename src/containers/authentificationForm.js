@@ -1,11 +1,14 @@
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import injectSaga from '../utils/injectSagas';
+import saga from '../sagas/authentificationFormSagas';
 import { googleSignInRequest } from '../actions/googleLogin';
 import { passwordSignInRequest } from '../actions/passwordLogin';
 import { signUpRequest } from '../actions/passwordRegister';
 import Authentification from '../components/Authentication';
 
-const mapStateToProps = () => ({
-  state: [],
+const mapStateToProps = state => ({
+  user: state.user.user,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -14,7 +17,14 @@ const mapDispatchToProps = dispatch => ({
   onPasswordRegister: (email, login) => dispatch(signUpRequest(email, login)),
 });
 
-export default connect(
+const withSaga = injectSaga({ key: 'Authentification', saga });
+
+const withConnect = connect(
   mapStateToProps,
   mapDispatchToProps,
+);
+
+export default compose(
+  withConnect,
+  withSaga,
 )(Authentification);

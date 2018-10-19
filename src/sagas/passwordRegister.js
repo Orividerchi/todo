@@ -1,4 +1,3 @@
-import firebase from 'firebase';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { passwordSignInRequest } from '../actions/passwordLogin';
 
@@ -12,15 +11,17 @@ const SIGN_UP_FAILURE_RESPONSE = 'SIGN_UP_FAILURE_RESPONSE';
  * @param {string} password user password
  */
 function promise(email, password) {
-  const result = new Promise((resolve, reject) => {
-    firebase.auth().createUserWithEmailAndPassword(email, password).then((user) => {
-      resolve(user);
-    }).catch((e) => {
-      alert(e);
-      reject(e);
-    });
+  const url = String('http://localhost:8080/reg');
+  const data = { username: 'user1', password, mail: email };
+  console.log(typeof url);
+  fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    mode: 'cors',
   });
-  return result;
 }
 
 /**

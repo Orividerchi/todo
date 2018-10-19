@@ -1,6 +1,5 @@
-import firebase from 'firebase';
 import { call, put, takeEvery } from 'redux-saga/effects';
-import currentUser from '../firebase/user';
+
 
 const ADD_TODO_REQUEST = 'ADD_TODO_REQUEST';
 const ADD_TODO_RESPONSE = 'ADD_TODO_RESPONSE';
@@ -12,19 +11,18 @@ const GET_TODOS_REQUEST = 'GET_TODOS_REQUEST';
  * @param {string} text todo value
  */
 function promise(text) {
-  const result = new Promise((resolve, reject) => {
-    const ref = firebase.database().ref('/').push();
-    const todo = {
-      id: ref.key,
-      text,
-      completed: false,
-      userId: currentUser.uid,
-    };
-    ref.set(todo)
-      .then(() => resolve(todo))
-      .catch(e => reject(e));
-  });
-  return result;
+  const url = String('http://localhost:8080/todo/addtodo');
+  const data = { todotitle: 'title', tododesc: text };
+  fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    mode: 'cors',
+  })
+    .then(response => response)
+    .catch(e => e);
 }
 
 /**
