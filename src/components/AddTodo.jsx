@@ -7,6 +7,7 @@ const AddTodo = (args) => {
       <form
         className="input-group"
         onSubmit={(e) => {
+          console.log(input.value);
           e.preventDefault();
           if (!input.value.trim()) {
             return;
@@ -15,10 +16,24 @@ const AddTodo = (args) => {
           input.value = '';
         }}
       >
-        <input ref={(node) => { input = node; }} className="form-control" type="text" />
+        <input
+          ref={(node) => {
+            input = node;
+          }}
+          placeholder="Product name"
+          className="form-control"
+          type="text"
+        />
+        <input
+          ref={(node) => {
+            input = node;
+          }}
+          type="number"
+          placeholder="count"
+        />
         <div className="input-group-append">
           <button type="submit" className="btn btn-primary">
-                Add New ToDo
+            Add New Product
           </button>
         </div>
       </form>

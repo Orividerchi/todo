@@ -1,16 +1,17 @@
 import React from 'react';
-import FilterButton from '../containers/FilterButton';
-import { VisibilityFilters } from '../actions/visibilityFilters';
+import firebase from 'firebase';
+
+const handleSignOutButton = () => {
+  firebase.auth().signOut();
+};
 
 const Header = () => (
   <div className="Footer">
     <div className="container">
-      <div className="row">
-        <div className="btn-group" role="group">
-          {Object.keys(VisibilityFilters)
-            .map(key => <FilterButton filter={key} key={key} />)
-          }
-        </div>
+      <div className="row" style={{ marginBottom: '10px' }}>
+        <button type="button" onClick={handleSignOutButton} className="btn btn-warning">
+          Sign Out
+        </button>
       </div>
     </div>
   </div>

@@ -8,6 +8,7 @@ import listenAllPasswordLoginRequests from './passwordLogin';
 import listenAllSignUpRequests from './passwordRegister';
 import listenAllGetTodosRequests from './getTodos';
 import listenAllToggleTodoRequest from './toggleTodo';
+import listenAllGetProductsRequests from './products';
 
 /**
  * @returns {void}
@@ -23,4 +24,5 @@ export default function* rootSaga() {
   yield fork(listenAllSignUpRequests);
   yield fork(listenAllGetTodosRequests);
   yield fork(listenAllToggleTodoRequest);
+  yield fork(listenAllGetProductsRequests);
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from './Header';
-import VisibleTodoList from '../containers/VisibleTodoList';
+import Product from '../containers/Product';
 
 /**
  * @returns {JSX} Application form
@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="container">
       <Header />
-      <VisibleTodoList />
+      <Product />
     </div>
   );
 }
