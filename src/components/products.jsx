@@ -1,3 +1,6 @@
+/* eslint-disable valid-jsdoc */
+/* eslint-disable jsx-a11y/label-has-for */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/button-has-type */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -8,6 +11,10 @@ import PropTypes from 'prop-types';
 class Product extends React.Component {
   state = {
     isModalVisible: false,
+    name: false,
+    count: false,
+    adress: false,
+    number: false,
   };
 
   /**
@@ -53,44 +60,108 @@ class Product extends React.Component {
     return <p>Loading</p>;
   };
 
+  submit = () => {
+    const {
+      name, count, adress, number, isModalVisible,
+    } = this.state;
+    if (!name || !count || !adress || !number) {
+      alert('All field must be fullfield');
+    } else if (count <= 0) {
+      alert('Count must be >0');
+    } else {
+      const { setOrder } = this.props;
+      setOrder(name, count, adress, number, isModalVisible);
+      this.setState({
+        isModalVisible: false,
+      });
+    }
+  };
+
+  nameChange = (e) => {
+    this.setState({
+      name: e.target.value,
+    });
+  };
+
+  countChange = (e) => {
+    this.setState({
+      count: e.target.value,
+    });
+  };
+
+  adressChange = (e) => {
+    this.setState({
+      adress: e.target.value,
+    });
+  };
+
+  numberChange = (e) => {
+    this.setState({
+      number: e.target.value,
+    });
+  };
+
   /**
    * @returns {JSX} - main form
    */
   render() {
     const { isModalVisible } = this.state;
-    const visibility = isModalVisible ? 'visible' : 'hidden';
-    return (
-      <div className="container">
-        <div className="row">
-          <div className="col-lg-3">{this.content()}</div>
-        </div>
-        <div style={{ visibility }}>
-          <form>
+    const content = () => {
+      const display1 = isModalVisible ? 'inline' : 'none';
+      const display2 = isModalVisible ? 'none' : 'inline';
+      return (
+        <div className="content">
+          <div className="row" style={{ display: display2 }}>
+            <div className="col-lg-3">{this.content()}</div>
+          </div>
+          <div style={{ display: display1 }}>
             <div className="form-group">
-              <input placeholder="Name, Surname" type="text" className="form-control" />
+              <label>Name, Surname</label>
+              <input
+                placeholder="Name, Surname"
+                type="text"
+                className="form-control"
+                onChange={e => this.nameChange(e)}
+              />
             </div>
             <div className="form-group">
-              <input placeholder="count" type="number" className="form-control" />
+              <label>Count products</label>
+              <input
+                placeholder="count"
+                type="number"
+                className="form-control"
+                onChange={e => this.countChange(e)}
+              />
             </div>
             <div className="form-group">
-              <input placeholder="adress" type="text" className="form-control" />
+              <label>Adress</label>
+              <input
+                placeholder="adress"
+                type="text"
+                className="form-control"
+                onChange={e => this.adressChange(e)}
+              />
             </div>
             <div className="form-group">
-              <input placeholder="Mobile" type="tel" className="form-control" />
+              <label>Mobile number</label>
+              <input
+                placeholder="Mobile"
+                type="tel"
+                className="form-control"
+                onChange={e => this.numberChange(e)}
+              />
             </div>
-            <div className="form-group">
-              <input placeholder="Date" type="date" className="form-control" />
-            </div>
-            <button type="submit" className="btn btn-success">
+            <button onClick={this.submit} className="btn btn-success">
               Confirm
             </button>
             <button onClick={this.onCloseModal} type="reset" className="btn btn-danger">
               Cancel
             </button>
-          </form>
+          </div>
         </div>
-      </div>
-    );
+      );
+    };
+    return content();
   }
 }
 
@@ -100,4 +171,5 @@ Product.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   products: PropTypes.array.isRequired,
   requestProductsList: PropTypes.func.isRequired,
+  setOrder: PropTypes.func.isRequired,
 };
